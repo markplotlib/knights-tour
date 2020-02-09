@@ -12,8 +12,8 @@
  */
 public class Chessboard {
 
-	public Chessboard() {
-        side = 3;
+	public Chessboard(int side) {
+        this.side = side;
         board = new char[side][side];
     }
 

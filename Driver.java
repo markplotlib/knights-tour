@@ -14,7 +14,7 @@ public class Driver {
 
 	public static void main(String[] args) {
         System.out.println("Driver file for Chess Computations project.");
-        Chessboard board = new Chessboard();
+        Chessboard board = new Chessboard(3);
         board.fill();
         board.show();
     }
