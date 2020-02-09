@@ -12,28 +12,17 @@
  */
 public class Chessboard {
 
-	public Chessboard() {
-        side = 3;
+	public Chessboard(int side) {
+        this.side = side;
         board = new char[side][side];
     }
 
-    public void fill() {
-        for (int row = 0; row < side; row++) {
-            for (int col = 0; col < side; col++) {
-                board[row][col] = ' ';
-            }
-        }
-    }
-
-    public void show() {
-        for (int row = 0; row < side; row++) {
-            for (int col = 0; col < side; col++) {
-                System.out.print("[");
-                System.out.print(board[row][col]);
-                System.out.print("]");
-            }
-            System.out.println();
-        }
+    public String toChess(int m) {
+        // Return algebraic chess notation for square m in an r x c chess board.
+        int r = m % side + 97;
+        char ch = (char) r;
+        int c = side - (m / side);
+        return Character.toString(ch) + Integer.toString(c);
     }
 
     private int side;
