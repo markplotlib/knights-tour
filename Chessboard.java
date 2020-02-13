@@ -1,3 +1,4 @@
+import java.util.*;
 /*
  * Mark Chesney
  * ACM: Association for Computing Machinery, Seattle University
@@ -14,6 +15,8 @@ public class Chessboard {
 
 	public Chessboard(int side) {
         this.side = side;
+        history = new int[side * side];
+        moves = 0;
     }
 
     public String toChess(int m) {
@@ -41,12 +44,38 @@ public class Chessboard {
         for (int m = 0; m < validMoves.length; m++) {
 // System.out.print(validMoves[m] + ". ");
             if (validMoves[m] == 0) {
-                System.out.println("m = " + m);
+// System.out.println("m = " + m);
                 return true;
             }
         }
         return false;
     }
 
+    // NOTE: this is linear search.
+    // This can be expedited to binary search.
+    public boolean isBackTracking(int m) {
+        for (int i = 0; i < history.length; i++)
+            if (m == history[i])
+                return true;
+        return false;
+    }
+
+    public void trackMove(int m) {
+        // stores history of spaces occupied by knight
+        // m is integer from 0 to side * side (e.g. to 63)
+        history[moves++] = m;
+    }
+
+    public String showHistory(int m) {
+        trackMove(m);
+        StringBuilder str = new StringBuilder();
+        for (int i = 0; i < moves; i++) {
+            str.append(toChess(history[i]) + " ");
+        }
+        return str.toString();
+    }
+
     private int side;
+    private int[] history;
+    int moves;
 }
