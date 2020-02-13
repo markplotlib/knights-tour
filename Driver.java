@@ -23,7 +23,7 @@ public class Driver {
         // """Determine if a move from square number j to number k is a valid
         // knight's move on a c-column board.
         int space = START;
-        System.out.print("Starting space: " + board.toChess(space) + "\n");
+        System.out.println("Starting space: " + board.toChess(space));
         for (int i = 0; i < SIZE; i++) {
             if (board.isKnightMove(space, i)) {
                 System.out.println("knight MOVES from " + board.toChess(space)
@@ -33,6 +33,6 @@ public class Driver {
                 System.out.println("knight CANNOT move to " + board.toChess(i));
             // System.out.println();
         }
+        System.out.println("Final space: " + board.toChess(space));
     }
-
 }
