@@ -14,7 +14,6 @@ public class Chessboard {
 
 	public Chessboard(int side) {
         this.side = side;
-// board = new char[side][side];
     }
 
     public String toChess(int m) {
@@ -46,5 +45,4 @@ public class Chessboard {
     }
 
     private int side;
-// private char[][] board;
 }
