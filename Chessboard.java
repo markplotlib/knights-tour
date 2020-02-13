@@ -28,32 +28,30 @@ public class Chessboard {
     }
 
     public boolean isKnightMove(int m0, int m1) {
+        // a knight cannot move into a space of the same row
         if (m0 / side == m1 / side)
             return false;
         int diff = m1 - m0;
-        int[] validMoves = {                    // debugging:
-                            diff - 2*side - 1,  // m=0
-                            diff - 2*side + 1,  // m=1
-                            diff - side - 2,    // m=2
-                            diff - side + 2,    // m=3
-                            diff + side - 2,    // m=4
-                            diff + side + 2,    // m=5
-                            diff + 2*side - 1,  // m=6
-                            diff + 2*side + 1,  // m=7
+        int[] validMoves = {    // at most, there are 8 valid L-shaped moves
+                            diff - 2*side - 1,
+                            diff - 2*side + 1,
+                            diff - side - 2,
+                            diff - side + 2,
+                            diff + side - 2,
+                            diff + side + 2,
+                            diff + 2*side - 1,
+                            diff + 2*side + 1,
                             };
         for (int m = 0; m < validMoves.length; m++) {
-// System.out.print(validMoves[m] + ". ");
             if (validMoves[m] == 0) {
-// System.out.println("m = " + m);
-                return true;
+                return true;    // square is a valid move
             }
         }
-        return false;
+        return false;   // square is an invalid move
     }
 
-    // NOTE: this is linear search.
-    // This can be expedited to binary search.
-    public boolean isBackTracking(int m) {
+    public boolean beenHereBefore(int m) {
+        // If the knight has already been in that space, then move is invalid
         for (int i = 0; i < history.length; i++)
             if (m == history[i])
                 return true;
@@ -67,6 +65,7 @@ public class Chessboard {
     }
 
     public String showHistory(int m) {
+        // returns string of move sequence, in algebraic notation
         trackMove(m);
         StringBuilder str = new StringBuilder();
         for (int i = 0; i < moves; i++) {
@@ -75,7 +74,7 @@ public class Chessboard {
         return str.toString();
     }
 
-    private int side;
-    private int[] history;
-    int moves;
+    private int side;       // n for an n x n square chessboard
+    private int[] history;  // integer array of move sequence
+    private int moves;      // integer move counter
 }
