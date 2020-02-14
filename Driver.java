@@ -20,10 +20,6 @@ public class Driver {
 
 	public static void main(String[] args) {
         System.out.println("Driver file for Chess Computations project.");
-<<<<<<< HEAD
-        Chessboard board = new Chessboard(3);
-        System.out.println("Done!");
-=======
         Chessboard board = new Chessboard(SIZE);
 
         // """Determine if a move from square number j to number k is a valid
@@ -42,6 +38,5 @@ public class Driver {
         }
         System.out.print("History of moves: ");
         System.out.println(board.showHistory(space));
->>>>>>> integer-board-squares
     }
 }
