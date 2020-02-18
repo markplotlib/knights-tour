@@ -15,8 +15,9 @@ public class Chessboard {
 
 	public Chessboard(int side) {
         this.side = side;
-        history = new int[side * side];
-        moves = 0;
+        // history = new int[side * side];
+        // moves = 0;
+        history = new LinkedHashSet<Integer>();
     }
 
     public String toChess(int m) {
@@ -52,29 +53,35 @@ public class Chessboard {
 
     public boolean beenHereBefore(int m) {
         // If the knight has already been in that space, then move is invalid
-        for (int i = 0; i < history.length; i++)
-            if (m == history[i])
-                return true;
-        return false;
+        //for (int i = 0; i < history.length; i++)
+        //   if (m == history[i])
+        //        return true;
+        //return false;
+        return history.contains(m);
     }
 
     public void trackMove(int m) {
         // stores history of spaces occupied by knight
         // m is integer from 0 to side * side (e.g. to 63)
-        history[moves++] = m;
+        // history[moves++] = m;
+        history.add(m);
     }
 
     public String showHistory(int m) {
         // returns string of move sequence, in algebraic notation
         trackMove(m);
         StringBuilder str = new StringBuilder();
-        for (int i = 0; i < moves; i++) {
-            str.append(toChess(history[i]) + " ");
+        //for (int i = 0; i < moves; i++) {
+        //    str.append(toChess(history[i]) + " ");
+        //}
+        for (int item : history) {
+           str.append(toChess(item) + " "); 
         }
         return str.toString();
     }
 
     private int side;       // n for an n x n square chessboard
-    private int[] history;  // integer array of move sequence
-    private int moves;      // integer move counter
+    //private int[] history;  // integer array of move sequence
+    //private int moves;      // integer move counter
+    private final LinkedHashSet<Integer> history;
 }
