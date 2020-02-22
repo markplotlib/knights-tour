@@ -48,5 +48,7 @@ public class Driver {
 
         System.out.println("Moves made: " + board.getHistory().size());
         System.out.println("Spaces on board: " + SIZE * SIZE);
+
+        System.out.println("\n" + board.showBoard());
     }
 }

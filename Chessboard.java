@@ -30,8 +30,8 @@ public class Chessboard {
         // returns true if knight moves from (x0, y0) to (x1, y1),
         // where (|y1-y0|, |x1-x0|) ∈ {(1, 2), (2, 1)}
         // at most, there are 8 valid L-shaped moves, board edge permitting
-        int diffCol = Math.abs(getCol(m1) - getCol(m0));
-        int diffRow = Math.abs(getRow(m1) - getRow(m0));
+        int diffCol = Math.abs((m1 % side) - (m0 % side));
+        int diffRow = Math.abs((m1 / side) - (m0 / side));
         return --diffCol * --diffRow == 0 && diffCol + diffRow == 1;
     }
 
@@ -59,12 +59,18 @@ public class Chessboard {
         return str.toString();
     }
 
-    public int getCol(int m) {
-        return m % side;
-    }
-
-    public int getRow(int m) {
-        return m / side;
+    public String showBoard() {
+        char wasThere;
+        StringBuilder str = new StringBuilder();
+        int i = 0;
+        while (i < side * side) {
+            wasThere = beenHereBefore(i) ? 'x' : '_';
+            str.append("[" + wasThere + "]");
+            i++;
+            if (i % side == 0)
+                str.append("\n");
+        }
+        return str.toString();
     }
 
     private int side;       // n for an n x n square chessboard
