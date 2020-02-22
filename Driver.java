@@ -26,14 +26,22 @@ public class Driver {
         // knight's move on a c-column board.
         int space = START;
         System.out.println("Starting space: " + board.toChess(space));
-        for (int i = 0; i < SIZE * SIZE; i++) {
-            // a valid move is one that forms an L-shape from the knight's
-            // current space, into a space that a knight has NOT been to before
-            if (!board.beenHereBefore(i) && board.isKnightMove(space, i)) {
-                board.trackMove(space);
-                System.out.println("knight MOVES from " + board.toChess(space)
-                + " to " + board.toChess(i));
-                space = i;
+        boolean reloop = true;
+        while (reloop) {
+            for (int i = 0; i < SIZE * SIZE; i++) {
+                // a valid move is one that forms an L-shape from the knight's
+                // current space, into a space that a knight has NOT been to before
+                if (!board.beenHereBefore(i) && board.isKnightMove(space, i)) {
+                    board.trackMove(space);
+                    System.out.println("knight MOVES from " + board.toChess(space)
+                    + " to " + board.toChess(i));
+                    space = i;
+                }
+            }
+// TEMP -- NEEDS FIX -- should stop at 8, instead of at 7
+            if (board.getHistory().size() > 6) {   // special case: 3x3 -- excludes center
+                System.out.println(board.getHistory().size());
+                reloop = false;
             }
         }
         System.out.print("History of moves: ");

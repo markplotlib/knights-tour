@@ -60,6 +60,10 @@ public class Chessboard {
         history.add(m);
     }
 
+    public LinkedHashSet<Integer> getHistory() {
+        return history;
+    }
+
     public String showHistory(int m) {
         // returns string of move sequence, in algebraic notation
         trackMove(m);
