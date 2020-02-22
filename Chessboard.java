@@ -27,26 +27,12 @@ public class Chessboard {
     }
 
     public boolean isKnightMove(int m0, int m1) {
-        // a knight cannot move into a space of the same row
-        if (m0 / side == m1 / side)
-            return false;
-        int diff = m1 - m0;
-        int[] validMoves = {    // at most, there are 8 valid L-shaped moves
-                            diff - 2*side - 1,
-                            diff - 2*side + 1,
-                            diff - side - 2,
-                            diff - side + 2,
-                            diff + side - 2,
-                            diff + side + 2,
-                            diff + 2*side - 1,
-                            diff + 2*side + 1,
-                            };
-        for (int m = 0; m < validMoves.length; m++) {
-            if (validMoves[m] == 0) {
-                return true;    // square is a valid move
-            }
-        }
-        return false;   // square is an invalid move
+        // returns true if knight moves from (x0, y0) to (x1, y1),
+        // where (|y1-y0|, |x1-x0|) ∈ {(1, 2), (2, 1)}
+        // at most, there are 8 valid L-shaped moves, board edge permitting
+        int diffCol = Math.abs(getCol(m1) - getCol(m0));
+        int diffRow = Math.abs(getRow(m1) - getRow(m0));
+        return --diffCol * --diffRow == 0 && diffCol + diffRow == 1;
     }
 
     public boolean beenHereBefore(int m) {
