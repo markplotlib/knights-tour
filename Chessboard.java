@@ -50,9 +50,8 @@ public class Chessboard {
         return history;
     }
 
-    public String showHistory(int m) {
+    public String showHistory() {
         // returns string of move sequence, in algebraic notation
-        trackMove(m);
         StringBuilder str = new StringBuilder();
         for (int item : history) {
            str.append(toChess(item) + " ");

@@ -32,19 +32,19 @@ public class Driver {
                 // current space, into a space that a knight has NOT been to before
                 if (!board.beenHereBefore(i) && board.isKnightMove(space, i)) {
                     board.trackMove(space);
-                    System.out.println("knight MOVES from " + board.toChess(space) + " to " + board.toChess(i));
+                    System.out.println(board.toChess(space) + " to " + board.toChess(i));
                     space = i;
                 }
                 i++;
                 continueFromTop = i < SIZE * SIZE;
             }
-// TEMP -- NEEDS FIX -- should stop at 8, instead of at 7
-// HARD-CODED -- special case: 3x3 -- excludes center
-            anotherMovePossible = board.getHistory().size() < SIZE * SIZE - 2;
+            // add final space to history
+            board.trackMove(space);
+            anotherMovePossible = board.getHistory().size() < SIZE * SIZE - 1;
         }
 
         System.out.print("History of moves: ");
-        System.out.println(board.showHistory(space));
+        System.out.println(board.showHistory());
 
         System.out.println("Moves made: " + board.getHistory().size());
         System.out.println("Spaces on board: " + SIZE * SIZE);
