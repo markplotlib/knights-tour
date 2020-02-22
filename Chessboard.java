@@ -70,6 +70,14 @@ public class Chessboard {
         return str.toString();
     }
 
+    public int getCol(int m) {
+        return m % side;
+    }
+
+    public int getRow(int m) {
+        return m / side;
+    }
+
     private int side;       // n for an n x n square chessboard
     private final LinkedHashSet<Integer> history;
 }
