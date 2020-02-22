@@ -18,32 +18,45 @@ public class Driver {
     // public static final int START = SIZE * SIZE / 2;
     public static final int START = 0;
 
+    public static int[] find8Moves(int m, int side) {
+        int[] arr = { m - 2*side - 1, m - 2*side + 1, m - side - 2, m - side + 2, m + side - 2, m + side + 2, m + 2*side - 1, m + 2*side + 1 };
+        return arr;
+    }
+
 	public static void main(String[] args) {
         Chessboard board = new Chessboard(SIZE);
-
         int space = START;
-        System.out.println("Starting space: " + board.toChess(space));
+        int[] moves = new int[8];  // at most, there are 8 valid L-shaped moves, board edge permitting
+        int i;
         boolean anotherMovePossible = true;
-        while (anotherMovePossible) {
-            boolean continueFromTop = true;
-            int i = 0;
-            while (continueFromTop) {
-                // a valid move is one that forms an L-shape from the knight's
-                // current space, into a space that a knight has NOT been to before
-                if (!board.beenHereBefore(i) && board.isKnightMove(space, i)) {
-                    board.trackMove(space);
-                    System.out.println(board.toChess(space) + " to " + board.toChess(i));
-                    space = i;
-                }
-                i++;
-                continueFromTop = i < SIZE * SIZE;
-            }
-            // add final space to history
-            board.trackMove(space);
-            anotherMovePossible = board.getHistory().size() < SIZE * SIZE - 1;
-        }
+        boolean withinBounds;
+        boolean moveMade = false;
 
-        System.out.print("History of moves: ");
+        System.out.println("Starting space: " + board.toChess(space));
+        while (anotherMovePossible) {
+            moves = find8Moves(space, SIZE);
+            i = 0;
+            moveMade = false;
+
+            while (i < moves.length && !moveMade) {
+                withinBounds = moves[i] >= 0 && moves[i] < (SIZE * SIZE);
+                // a valid move is among the 8 L-shaped moves, which a knight has NOT visited before.
+                if (withinBounds && !board.beenHereBefore(moves[i]) && board.isKnightMove(space, moves[i])) {
+                    System.out.print(board.toChess(space) + " to " + board.toChess(moves[i]) + ". ");
+                    board.trackMove(space);  // record move
+                    space = moves[i];   // finalize move
+                    moveMade = true;  // exits inner loop
+                } else {
+                    i++;    // check next move of 8 possibilities
+                }
+            }
+            // as long as a move is made, another one is possible, UNLESS the final move has been made
+            anotherMovePossible = moveMade;
+        }
+        // add final space to history
+        board.trackMove(space);
+
+        System.out.print("\n\nHistory of moves: ");
         System.out.println(board.showHistory());
 
         System.out.println("Moves made: " + board.getHistory().size());
