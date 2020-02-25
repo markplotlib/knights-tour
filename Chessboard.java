@@ -73,8 +73,8 @@ public class Chessboard {
         return sBuilder.toString();
     }
 
-    public Stack<Integer> getHistory() {
-        return history;
+    public int getSize() {
+        return history.size();
     }
 
     public boolean[] getPreviousMoves() {

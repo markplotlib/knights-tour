@@ -57,7 +57,7 @@ public class Driver {
         board.trackMove(space);
         System.out.println("\n");
 
-        System.out.println("Number of moves made: " + board.getHistory().size());
+        System.out.println("Number of moves made: " + board.getSize());
         System.out.println("Spaces on board: " + SIZE * SIZE);
 
         System.out.print("History of moves: ");
