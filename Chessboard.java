@@ -15,7 +15,8 @@ public class Chessboard {
 
 	public Chessboard(int side) {
         this.side = side;
-        history = new LinkedHashSet<Integer>();
+        arrPreviousMoves = new boolean[side * side];
+        history = new Stack<Integer>();
     }
 
     public String toChess(int m) {
@@ -37,25 +38,27 @@ public class Chessboard {
 
     public boolean beenHereBefore(int m) {
         // If the knight has already been in that space, then move is invalid
-        return history.contains(m);
+        // for (int pastMove = 0; pastMove < history.size(); pastMove++)
+        //     if (pastMove == m)
+        //         return true;
+        // return false;
+        return arrPreviousMoves[m];
     }
 
     public void trackMove(int m) {
         // stores history of spaces occupied by knight
-        // m is integer from 0 to side * side (e.g. to 63)
-        history.add(m);
-    }
-
-    public LinkedHashSet<Integer> getHistory() {
-        return history;
+        // m is integer from 0 to n x n
+        arrPreviousMoves[m] = true;
+        history.push(m);
     }
 
     public String showHistory() {
         // returns string of move sequence, in algebraic notation
         StringBuilder str = new StringBuilder();
-        for (int item : history) {
-           str.append(toChess(item) + " ");
-        }
+        for (int pastMove = 0; pastMove < history.size(); pastMove++)
+           str.append(toChess(pastMove) + " ");
+        // for (int pastMove = 0; pastMove < history.size(); pastMove++)
+        //    str.append(toChess(pastMove) + " ");
         return str.toString();
     }
 
@@ -73,6 +76,17 @@ public class Chessboard {
         return str.toString();
     }
 
+    public Stack<Integer> getHistory() {
+        return history;
+    }
+
+    public boolean[] getPreviousMoves() {
+        return arrPreviousMoves;
+    }
+
     private int side;       // n for an n x n square chessboard
-    private final LinkedHashSet<Integer> history;
+
+    private Stack<Integer> history;
+
+    private boolean[] arrPreviousMoves;    // true if knight has been here before
 }

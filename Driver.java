@@ -27,7 +27,7 @@ public class Driver {
         Chessboard board = new Chessboard(SIZE);
         int space = START;
         int[] moves = new int[8];  // at most, there are 8 valid L-shaped moves, board edge permitting
-        int i;
+        int ct;  // counter to check the 8 moves
         boolean anotherMovePossible = true;
         boolean withinBounds;
         boolean moveMade = false;
@@ -35,19 +35,19 @@ public class Driver {
         System.out.println("Starting space: " + board.toChess(space));
         while (anotherMovePossible) {
             moves = find8Moves(space, SIZE);
-            i = 0;
+            ct = 0;
             moveMade = false;
 
-            while (i < moves.length && !moveMade) {
-                withinBounds = moves[i] >= 0 && moves[i] < (SIZE * SIZE);
+            while (ct < moves.length && !moveMade) {
+                withinBounds = moves[ct] >= 0 && moves[ct] < (SIZE * SIZE);
                 // a valid move is among the 8 L-shaped moves, which a knight has NOT visited before.
-                if (withinBounds && !board.beenHereBefore(moves[i]) && board.isKnightMove(space, moves[i])) {
-                    System.out.print(board.toChess(space) + " to " + board.toChess(moves[i]) + ". ");
+                if (withinBounds && !board.beenHereBefore(moves[ct]) && board.isKnightMove(space, moves[ct])) {
+                    System.out.print(board.toChess(space) + " to " + board.toChess(moves[ct]) + ". ");
                     board.trackMove(space);  // record move
-                    space = moves[i];   // finalize move
+                    space = moves[ct];   // finalize move
                     moveMade = true;  // exits inner loop
                 } else {
-                    i++;    // check next move of 8 possibilities
+                    ct++;    // check next move of 8 possibilities
                 }
             }
             // as long as a move is made, another one is possible, UNLESS the final move has been made
