@@ -38,10 +38,6 @@ public class Chessboard {
 
     public boolean beenHereBefore(int m) {
         // If the knight has already been in that space, then move is invalid
-        // for (int pastMove = 0; pastMove < history.size(); pastMove++)
-        //     if (pastMove == m)
-        //         return true;
-        // return false;
         return arrPreviousMoves[m];
     }
 
@@ -54,26 +50,27 @@ public class Chessboard {
 
     public String showHistory() {
         // returns string of move sequence, in algebraic notation
-        StringBuilder str = new StringBuilder();
-        for (int pastMove = 0; pastMove < history.size(); pastMove++)
-           str.append(toChess(pastMove) + " ");
-        // for (int pastMove = 0; pastMove < history.size(); pastMove++)
-        //    str.append(toChess(pastMove) + " ");
-        return str.toString();
+        StringBuilder sBuilder = new StringBuilder();
+        int lastMove;
+        while (!history.empty()) {
+            lastMove = history.pop();
+            sBuilder.append(toChess(lastMove) + " ");
+        }
+        return sBuilder.toString();
     }
 
     public String showBoard() {
         char wasThere;
-        StringBuilder str = new StringBuilder();
+        StringBuilder sBuilder = new StringBuilder();
         int i = 0;
         while (i < side * side) {
             wasThere = beenHereBefore(i) ? 'x' : '_';
-            str.append("[" + wasThere + "]");
+            sBuilder.append("[" + wasThere + "]");
             i++;
             if (i % side == 0)
-                str.append("\n");
+                sBuilder.append("\n");
         }
-        return str.toString();
+        return sBuilder.toString();
     }
 
     public Stack<Integer> getHistory() {

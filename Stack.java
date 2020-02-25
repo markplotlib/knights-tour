@@ -132,7 +132,7 @@ public class Stack<T>
 	        sBuilder.append(p.value);
 	        p = p.next;
 	        if (p != null)
-				   sBuilder.append(" | ");
+				sBuilder.append(" ");
 	    }
 	    return sBuilder.toString();
 	}

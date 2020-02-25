@@ -55,12 +55,13 @@ public class Driver {
         }
         // add final space to history
         board.trackMove(space);
+        System.out.println("\n");
 
-        System.out.print("\n\nHistory of moves: ");
-        System.out.println(board.showHistory());
-
-        System.out.println("Moves made: " + board.getHistory().size());
+        System.out.println("Number of moves made: " + board.getHistory().size());
         System.out.println("Spaces on board: " + SIZE * SIZE);
+
+        System.out.print("History of moves: ");
+        System.out.println(board.showHistory());
 
         System.out.println("\n" + board.showBoard());
     }
