@@ -50,12 +50,13 @@ public class Chessboard {
 
     public String showHistory() {
         // returns string of move sequence, in algebraic notation
+        // rectifies move order by using second stack
         StringBuilder sBuilder = new StringBuilder();
-        int lastMove;
-        while (!history.empty()) {
-            lastMove = history.pop();
-            sBuilder.append(toChess(lastMove) + " ");
-        }
+        Stack<Integer> endStack = new Stack<>();
+        while (!history.empty())
+            endStack.push(history.pop());
+        while (!endStack.empty())
+            sBuilder.append(toChess(endStack.pop()) + " ");
         return sBuilder.toString();
     }
 
