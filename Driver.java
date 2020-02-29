@@ -14,7 +14,7 @@
  */
 public class Driver {
 
-    public static final int SIZE = 5;
+    public static final int SIZE = 3;
     // public static final int START = SIZE * SIZE / 2;
     public static final int START = 0;
 
@@ -27,8 +27,7 @@ public class Driver {
         Chessboard board = new Chessboard(SIZE);
         int space = START;
         int[] moves = new int[8];  // at most, there are 8 valid L-shaped moves, board edge permitting
-        int ct;         // counter to check the 8 moves
-        int dir = 0;    // points to 1 of 8 directions for movement
+        int ct;  // counter to check the 8 moves
         boolean anotherMovePossible = true;
         boolean withinBounds;
         boolean moveMade = false;
@@ -36,24 +35,22 @@ public class Driver {
         System.out.println("Starting space: " + board.toChess(space));
         while (anotherMovePossible) {
             moves = find8Moves(space, SIZE);
-            moveMade = false;
             ct = 0;
+            moveMade = false;
 
             while (ct < moves.length && !moveMade) {
-                withinBounds = moves[dir] >= 0 && moves[dir] < (SIZE * SIZE);
+                withinBounds = moves[ct] >= 0 && moves[ct] < (SIZE * SIZE);
                 // a valid move is among the 8 L-shaped moves, which a knight has NOT visited before.
-                if (withinBounds && !board.beenHereBefore(moves[dir]) && board.isKnightMove(space, moves[dir])) {
-                    System.out.print(board.toChess(space) + " to " + board.toChess(moves[dir]) + ". ");
+                if (withinBounds && !board.beenHereBefore(moves[ct]) && board.isKnightMove(space, moves[ct])) {
+                    System.out.print(board.toChess(space) + " to " + board.toChess(moves[ct]) + ". ");
                     board.trackMove(space);  // record move
-                    space = moves[dir];   // finalize move
+                    space = moves[ct];   // finalize move
                     moveMade = true;  // exits inner loop
+                } else {
+                    ct++;    // check next move of 8 possibilities
                 }
-                dir++;    // check next move of 8 possibilities
-                dir %= 8;
-                ct++;
             }
-            // as long as a move is made, another one is possible, UNLESS the
-            // final move has been made (successful tour, or failure)
+            // as long as a move is made, another one is possible, UNLESS the final move has been made
             anotherMovePossible = moveMade;
         }
         // add final space to history
