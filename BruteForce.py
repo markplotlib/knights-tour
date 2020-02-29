@@ -1,5 +1,5 @@
 from decimal import Decimal
-from Chessboard import Chessboard
+from Chessboard import *
 # code must be done in Python (v3).
 # We'll be using r x c chess boards of various sizes with paths displayed in
 # algebraic chess notation (bottom left corner is square a1,
@@ -37,3 +37,4 @@ def show_table():
 
 if __name__ == '__main__':
     print(show_table())
+    print(to_chess(0), to_chess(63))
