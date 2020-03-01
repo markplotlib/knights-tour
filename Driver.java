@@ -14,19 +14,19 @@
  */
 public class Driver {
 
-    public static final int SIZE = 3;
-    // public static final int START = SIZE * SIZE / 2;
-    public static final int START = 0;
+    public static final int SIZE = 5;
+    public static final int START = SIZE * SIZE / 2;
 
     public static int[] find8Moves(int m, int side) {
-        int[] arr = { m - 2*side - 1, m - 2*side + 1, m - side - 2, m - side + 2, m + side - 2, m + side + 2, m + 2*side - 1, m + 2*side + 1 };
+        int[] arr = {m - 2*side - 1, m - 2*side + 1, m - side - 2, m - side + 2,
+            m + side - 2, m + side + 2, m + 2*side - 1, m + 2*side + 1 };
         return arr;
     }
 
 	public static void main(String[] args) {
         Chessboard board = new Chessboard(SIZE);
         int space = START;
-        int[] moves = new int[8];  // at most, there are 8 valid L-shaped moves, board edge permitting
+        int[] moves = new int[8];  // at most, there are 8 valid L-shaped moves
         int ct;  // counter to check the 8 moves
         boolean anotherMovePossible = true;
         boolean withinBounds;
