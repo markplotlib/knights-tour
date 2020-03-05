@@ -14,14 +14,6 @@
  */
 public class Driver {
 
-    public static int SIZE;
-    public static int START;
-
-    public static void setConstants(int size) {
-        SIZE = size;
-        START = size < 5 ? 0 : SIZE * SIZE / 2;
-    }
-
     public static int[] find8Moves(int m, int side) {
         int[] arr = {m - 2*side - 1, m - 2*side + 1, m - side - 2, m - side + 2,
             m + side - 2, m + side + 2, m + 2*side - 1, m + 2*side + 1 };
@@ -29,8 +21,15 @@ public class Driver {
     }
 
 	public static void main(String[] args) {
+        int size;
+        if (args.length == 0) {
+            size = 8;
+        } else {
+            size = Integer.parseInt(args[0]);
+        }
 
-        setConstants(5);
+        final int SIZE = size;
+        final int START = size < 5 ? 0 : SIZE * SIZE / 2;
 
         Chessboard board = new Chessboard(SIZE);
         int space = START;
@@ -50,7 +49,6 @@ public class Driver {
                 withinBounds = moves[ct] >= 0 && moves[ct] < (SIZE * SIZE);
                 // a valid move is among the 8 L-shaped moves, which a knight has NOT visited before.
                 if (withinBounds && !board.beenHereBefore(moves[ct]) && board.isKnightMove(space, moves[ct])) {
-                    System.out.print(board.toChess(space) + " to " + board.toChess(moves[ct]) + ". ");
                     board.trackMove(space);  // record move
                     space = moves[ct];   // finalize move
                     moveMade = true;  // exits inner loop
@@ -63,7 +61,6 @@ public class Driver {
         }
         // add final space to history
         board.trackMove(space);
-        System.out.println("\n");
 
         System.out.println("Number of moves made: " + board.getSize());
         System.out.println("Spaces on board: " + SIZE * SIZE);
