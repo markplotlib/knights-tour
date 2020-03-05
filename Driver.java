@@ -14,8 +14,13 @@
  */
 public class Driver {
 
-    public static final int SIZE = 5;
-    public static final int START = SIZE * SIZE / 2;
+    public static int SIZE;
+    public static int START;
+
+    public static void setConstants(int size) {
+        SIZE = size;
+        START = size < 5 ? 0 : SIZE * SIZE / 2;
+    }
 
     public static int[] find8Moves(int m, int side) {
         int[] arr = {m - 2*side - 1, m - 2*side + 1, m - side - 2, m - side + 2,
@@ -24,6 +29,9 @@ public class Driver {
     }
 
 	public static void main(String[] args) {
+
+        setConstants(5);
+
         Chessboard board = new Chessboard(SIZE);
         int space = START;
         int[] moves = new int[8];  // at most, there are 8 valid L-shaped moves
