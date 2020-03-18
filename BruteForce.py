@@ -1,5 +1,6 @@
 from decimal import Decimal
 from Chessboard import *
+from itertools import permutations
 # code must be done in Python (v3).
 # We'll be using r x c chess boards of various sizes with paths displayed in
 # algebraic chess notation (bottom left corner is square a1,
@@ -14,7 +15,8 @@ from Chessboard import *
 # to show progress. Your output has to look substantially similar to mine,
 # as shown here for the start of running it for a 4x4 board:
 
-def show_table():
+if __name__ == '__main__':
+
     #### HARD CODED
     t1 = 3.52
     time_total = 2.1E13
@@ -28,22 +30,22 @@ def show_table():
     progress_percent = '(' + str(prg1_perc) + '%)'
     progress_stats = " ".join([progress_ratio, progress_percent])
 
-    outcome = "\tsuccess" if tour_done else "\tfailure"
+    outcome = "success\t" if tour_done else "failure\t"
 
-    colnames = ["time", "*"*8 + " progress " + "*"*8, "s/f\t", "{}x{} board moves".format(r, c)]
+    table_header = ["time", "*"*7 + " progress " + "*"*7, "outcome\t", "{}x{} board moves".format(r, c)]
+    print(" | ".join(table_header))
 
-    move_list = []
+    # create list of all board squares, to feed into generator
+    board_squares = []
     i = 0
     while i < r*c:
-        move_list.append(to_chess(i, r, c))
+        board_squares.append(to_chess(i, r, c))
         i += 1
-    move_seq = " ".join(move_list)
 
-    data = [str(t1), progress_stats, outcome, move_seq]
-
-    return " ".join(colnames) + "\n" + " ".join(data)
-
-
-if __name__ == '__main__':
-    print(show_table())
-    # print(to_chess(0), to_chess(63))
+    # generate each permutation
+    # convert each from tuple to string
+    for permutation_tuple in permutations(board_squares, r*c):
+        i += 1
+        if i % 1000000 == 0:
+            table_row = [str(t1), progress_stats, outcome, " ".join(permutation_tuple)]
+            print(" | ".join(table_row))
