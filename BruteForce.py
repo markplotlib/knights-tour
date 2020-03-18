@@ -22,19 +22,21 @@ def show_table():
     prg1_perc = 1/100000    # ask Kevin how to make this show 0.00001%
     tour_done = False
     #### HARD CODED
+    r=4; c=4
 
     progress_ratio = '%.1E' % Decimal(str(prg1)) + '/' + '%.1E' % Decimal(str(time_total))
     progress_percent = '(' + str(prg1_perc) + '%)'
     progress_stats = " ".join([progress_ratio, progress_percent])
 
-    outcome = "success" if tour_done else "failure"
+    outcome = "\tsuccess" if tour_done else "\tfailure"
 
-    colnames = ["time", "*"*8 + " progress " + "*"*8, "outcome"]
-    data = [str(t1),progress_stats,outcome]
+    colnames = ["time", "*"*8 + " progress " + "*"*8, "s/f\t", "{}x{} board moves".format(r, c)]
+    mooves= " ".join([to_chess(0), to_chess(63)])
+    data = [str(t1), progress_stats, outcome, mooves]
 
     return " ".join(colnames) + "\n" + " ".join(data)
 
 
 if __name__ == '__main__':
     print(show_table())
-    print(to_chess(0), to_chess(63))
+    # print(to_chess(0), to_chess(63))
