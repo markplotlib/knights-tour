@@ -22,8 +22,6 @@ def factorial(n):
 if __name__ == '__main__':
 
     #### HARD CODED
-    prg1 = 1E6
-    prg1_perc = 1/100000    # ask Kevin how to make this show 0.00001%
     tour_done = False
     #### HARD CODED
 
@@ -34,24 +32,27 @@ if __name__ == '__main__':
         board_squares.append(to_chess(i, r, c))
         i += 1
 
+    # generate all permutations, returned as iterable
     iter_permutations = permutations(board_squares, r*c)
-    num_permutations = factorial(r*c)
-
-    progress_ratio = '%.1E' % Decimal(str(prg1)) + '/' + '%.1E' % Decimal(str(num_permutations))
-    progress_percent = '(' + str(prg1_perc) + '%)'
-    progress_stats = " ".join([progress_ratio, progress_percent])
-
-    outcome = "success" if tour_done else "failure"
 
     table_header = ["seconds", "*"*7 + " progress " + "*"*7, "outcome", "{}x{} board moves".format(r, c)]
     print("\t| ".join(table_header))
 
-    # generate each permutation
     # convert each from tuple to string
     start = time()
     for permutation_tuple in iter_permutations:
+        num_permutations = factorial(r*c)
         i += 1
         if i % 1000000 == 0:
             itr_time = round(time() - start, 1)
+
+            # table column: progress
+            progress_ratio = '%.1E' % Decimal(str(i)) + '/' + '%.1E' % Decimal(str(num_permutations))
+            progress_percent = '(' + str(round(i / num_permutations, 8)) + '%)'
+            progress_stats = " ".join([progress_ratio, progress_percent])
+
+            # table column: outcome
+            outcome = "success" if tour_done else "failure"
+
             table_row = [str(itr_time), progress_stats, outcome, " ".join(permutation_tuple)]
             print("\t| ".join(table_row))
