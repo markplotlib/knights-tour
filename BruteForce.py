@@ -31,9 +31,15 @@ def show_table():
     outcome = "\tsuccess" if tour_done else "\tfailure"
 
     colnames = ["time", "*"*8 + " progress " + "*"*8, "s/f\t", "{}x{} board moves".format(r, c)]
-    mooves= " ".join([to_chess(0, r, c),
-                      to_chess(1, r, c)])
-    data = [str(t1), progress_stats, outcome, mooves]
+
+    move_list = []
+    i = 0
+    while i < r*c:
+        move_list.append(to_chess(i, r, c))
+        i += 1
+    move_seq = " ".join(move_list)
+
+    data = [str(t1), progress_stats, outcome, move_seq]
 
     return " ".join(colnames) + "\n" + " ".join(data)
 
