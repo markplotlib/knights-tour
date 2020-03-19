@@ -1,19 +1,19 @@
 from decimal import Decimal
-from itertools import permutations
+from itertools import permutations, repeat
 from time import time
 
-from Chessboard import to_chess, is_knight_move
+from Chessboard import to_chess, is_knight_move, are_all_knight_moves
 # https://seattleu.instructure.com/courses/1588778/assignments/6759181
 
 # BRUTE FORCE
 # Write an algorithm (in Python) that loops through all possible permutations of
-# the squares of an r x c chess board, checking each one to see if it is a
+# the squares of a row x col chess board, checking each one to see if it is a
 # Hamiltonian path or not. Print out every millionth path, as you go,
 # to show progress. Your output has to look substantially similar to mine,
 # as shown here for the start of running it for a 4x4 board:
 
 # global variables
-r = c = 4   # board dimensions
+row = col = 4   # board dimensions
 
 def factorial(n):
     return 1 if n == 1 else n*factorial(n-1)
@@ -21,27 +21,17 @@ def factorial(n):
 
 if __name__ == '__main__':
 
-    #### HARD CODED
-    tour_done = False
-    #### HARD CODED
+    # generate iterable of all permutations
+    iter_permutations = permutations(range(row*col))
 
-    # create list of all board squares, to feed into generator
-    board_squares = []
-    i = 0
-    while i < r*c:
-        board_squares.append(to_chess(i, r, c))
-        i += 1
-
-    # generate all permutations, returned as iterable
-    iter_permutations = permutations(board_squares, r*c)
-
-    table_header = ["seconds", "*"*7 + " progress " + "*"*7, "outcome", "{}x{} board moves".format(r, c)]
+    table_header = ["seconds", "*"*7 + " progress " + "*"*7, "outcome", "{}x{} board moves".format(row, col)]
     print("\t| ".join(table_header))
 
     # convert each from tuple to string
     start = time()
+    i = 0
+    num_permutations = factorial(row*col)
     for permutation_tuple in iter_permutations:
-        num_permutations = factorial(r*c)
         i += 1
         if i % 1000000 == 0:
             itr_time = round(time() - start, 1)
@@ -52,7 +42,10 @@ if __name__ == '__main__':
             progress_stats = " ".join([progress_ratio, progress_percent])
 
             # table column: outcome
+            tour_done = are_all_knight_moves(permutation_tuple, col)
             outcome = "success" if tour_done else "failure"
 
-            table_row = [str(itr_time), progress_stats, outcome, " ".join(permutation_tuple)]
+            move_seq = list(map(to_chess, permutation_tuple, repeat(row, row*col), repeat(col, row*col)))
+
+            table_row = [str(itr_time), progress_stats, outcome, " ".join(move_seq)]
             print("\t| ".join(table_row))

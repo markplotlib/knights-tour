@@ -18,3 +18,20 @@ def is_knight_move(j, k, c):
     diff_col = abs((k % c) - (j % c)) - 1
     diff_row = abs((k // c) - (j // c)) - 1
     return (diff_col*diff_row == 0) and (diff_col + diff_row == 1)
+
+
+def are_all_knight_moves(x, c):
+    """
+    Returns True if sequences of moves are all knight moves, otherwise False.
+    >>> are_all_knight_moves([0, 10, 16], 8)
+    True
+    >>> are_all_knight_moves([0, 9, 2, 4, 10, 1, 8, 6], 4)
+    True
+    >>> are_all_knight_moves([0, 1], 8)
+    False
+    """
+    if len(x) <= 1:
+        return True
+    else:
+        a, b = x[0], x[1]
+        return is_knight_move(a, b, c) and are_all_knight_moves(x[1:], c)
