@@ -14,6 +14,10 @@ def is_knight_move(j, k, c):
     at most, there are 8 valid L-shaped moves, board edge permitting
     >>> is_knight_move(51, 61, 8), is_knight_move(19, 4, 8), is_knight_move(0, 2, 8)
     (True, True, False)
+    >>> is_knight_move(12, 1, 5), is_knight_move(12, 3, 5), is_knight_move(12, 5, 5), is_knight_move(12, 9, 5), is_knight_move(12, 15, 5), is_knight_move(12, 19, 5), is_knight_move(12, 21, 5), is_knight_move(12, 23, 5)
+    (True, True, True, True, True, True, True, True)
+    >>> is_knight_move(12, 2, 5), is_knight_move(12, 6, 5), is_knight_move(12, 7, 5), is_knight_move(12, 8, 5)
+    (False, False, False, False)
     """
     diff_col = abs((k % c) - (j % c)) - 1
     diff_row = abs((k // c) - (j // c)) - 1

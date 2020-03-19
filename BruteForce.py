@@ -5,13 +5,11 @@ from time import time
 from Chessboard import to_chess, is_knight_move, are_all_knight_moves
 # https://seattleu.instructure.com/courses/1588778/assignments/6759181
 
-# BRUTE FORCE
-# Write an algorithm (in Python) that loops through all possible permutations of
-# the squares of a row x col chess board, checking each one to see if it is a
-# Hamiltonian path or not. Print out every millionth path, as you go,
-# to show progress. Your output has to look substantially similar to mine,
-# as shown here for the start of running it for a 4x4 board:
-
+"""Brute Force algorithm
+Write an algorithm (in Python) that loops through all possible permutations of
+the squares of a row x col chess board, checking each one to see if it is a
+Hamiltonian path or not. Print out every millionth path, to show progress.
+"""
 # global variables
 row = col = 4   # board dimensions
 
