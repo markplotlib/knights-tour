@@ -23,11 +23,15 @@ if __name__ == '__main__':
     # convert each from tuple to string
     start = time()
     i = 0
+    space = START
     temp_stop_iterating = 3E6  ############ TEMP ########################
     while i <= temp_stop_iterating:
         i += 1
         if i % 1000000 == 0:
             itr_time = round(time() - start, 1)
+
+            available_moves = board.find_8_moves(space, ROW, COL)
+            
 
             # table column: trying (attempt)
 
