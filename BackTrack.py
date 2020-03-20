@@ -31,7 +31,7 @@ if __name__ == '__main__':
             itr_time = round(time() - start, 1)
 
             available_moves = board.find_8_moves(space, ROW, COL)
-            
+
 
             # table column: trying (attempt)
 
