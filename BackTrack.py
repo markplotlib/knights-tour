@@ -43,20 +43,34 @@ def find_8_moves(stack, r=8, c=8):
             moves_within_bounds.append(m)
     return moves_within_bounds
 
-def make_move(stack):
-    # base case 1
+def make_move(stack, i):
+    i += 1
     if len(stack) == ROW*COL:    # knight's tour found! :)
-        anotherMovePossible = False
-        return True
-    elif len(stack) == 0:        # knight's tour unachievable :(
-        anotherMovePossible = False
-        return False    # final spaces are impossible to reach
+        for _ in range(9):
+            print("*"*9 + "SOLUTION FOUND" + "*"*9)
+            i = 0                # to print out solution
+
+    if i % 1000000 == 0:        # print out millionth recursive call
+        itr_time = round(time() - start, 1)
+        # table column: trying (attempt)
+        attempt = "trying({})".format(str(len(stack)))
+        # table column: move sequence and longest path (high score)
+        move_seq = list(map(to_chess, stack, repeat(ROW, len(stack)), repeat(COL, len(stack))))
+        hi_score = max(hi_score, len(stack))
+        str_hi_score = "longest path so far: " + str(hi_score)
+        # entire table
+        table_row = [str(itr_time), str(i), attempt, " ".join(move_seq), str_hi_score]
+        print("\t| ".join(table_row))
+
+    elif len(stack) == 0:  # knight's tour unachievable for r,c < 5 :(
+        return             # final spaces are impossible to reach
+
     else:
         good_moves = find_8_moves(stack, ROW, COL)
         while len(good_moves) > 0:
             # recursive case -- advance the knight
             stack.append(good_moves.pop())
-            return make_move(stack)
+            return make_move(stack, i)
         # this branch is a dead-end --> backtrack
         stack.pop()
 
@@ -66,35 +80,13 @@ ROW = COL = 4   # board dimensions
 START = 0       # space where the knight begins
 
 if __name__ == '__main__':
-    all_spaces = range(ROW*COL)
 
     table_header = ["seconds", "iteration", "length of try", "{}x{} board moves".format(ROW, COL)]
     print("\t| ".join(table_header))
 
     # initialize values
-    spaces_visited = [START]
-    i = 0
-    anotherMovePossible = True
     start = time()
+    hi_score = 0
 
-    while anotherMovePossible:
-        # anotherMovePossible becomes false when:
-        # a) final spaces are impossible to reach
-        # b) final spaces are reached (i.e., tour_completed is True)
-
-        tour_completed = make_move(spaces_visited)
-        hi_score = 1
-        hi_score = max(hi_score, len(spaces_visited))
-
-        i += 1
-        if tour_completed or i % 1000000 == 0:
-            itr_time = round(time() - start, 1)
-
-            # table column: trying (attempt)
-            attempt = "trying({})".format(str(len(spaces_visited)))
-
-            move_seq = list(map(to_chess, spaces_visited, repeat(ROW, len(spaces_visited)), repeat(COL, len(spaces_visited))))
-            str_hi_score = "longest path so far: " + str(hi_score)
-
-            table_row = [str(itr_time), str(i), attempt, " ".join(move_seq), str_hi_score]
-            print("\t| ".join(table_row))
+    # recursive call
+    make_move([START], 0)
