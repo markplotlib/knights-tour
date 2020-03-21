@@ -1,3 +1,5 @@
-*.class
-*.py
 __pycache__/
+*.py
+*.java
+*.class
+*.pdf
