@@ -52,16 +52,14 @@ def find_8_moves(stack, r=8, c=8):
 def make_move(stack, i, hi_score):
     i += 1
     if len(stack) == ROW*COL:    # knight's tour found! :)
-        for _ in range(9):
-            print("*"*9 + "SOLUTION FOUND" + "*"*9)
-            return i, ROW*COL
+        return i, ROW*COL
 
     elif len(stack) == 0:        # knight's tour unachievable for r < 5, c < 5
         return i, hi_score       # final spaces are impossible to reach
 
     else:
         # print out occasional recursive calls
-        if i % DISPLAY_RATE == 0:
+        if i % SAMPLING_RATE == 0:
             itr_time = round(time() - start, 1)
             # table column: trying (attempt)
             attempt = "trying({})".format(str(len(stack)))
@@ -88,14 +86,14 @@ def make_move(stack, i, hi_score):
 
 
 # global variables
-ROW = COL = 4   # board dimensions
+ROW = COL = 6   # board dimensions
 START = 0       # space where the knight begins
-DISPLAY_RATE = 1000
+SAMPLING_RATE = 10000
 
 
 if __name__ == '__main__':
 
-    table_header = ["seconds", "call#", "length of try", "{}x{} board moves".format(ROW, COL)]
+    table_header = ["seconds", "call #", "length of try", "{}x{} board moves".format(ROW, COL)]
     print("\t| ".join(table_header))
 
     # initialize values
@@ -103,5 +101,10 @@ if __name__ == '__main__':
     hi_score = 0
 
     # recursive call
-    final_i, final_longest_path = make_move([START], 0, hi_score)
-    print("Final Summary: {} recursive calls. Longest path: {}".format(final_i, final_longest_path))
+    final_i, longest_path = make_move([START], 0, hi_score)
+    print("-"*64)
+    print("Final Summary: {} recursive calls. Longest path: {}. Runtime: {} seconds".format(final_i, longest_path, round(time() - start, 1)))
+    if longest_path == ROW*COL:
+        print("*"*33 + "SOLUTION FOUND" + "*"*33)
+    else:
+        print("No Hamiltonian circuit was found.")
