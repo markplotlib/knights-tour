@@ -11,18 +11,3 @@ class Chessboard:
         row = r - m // r
         col = m % c + 97
         return chr(col) + str(row)
-
-    def is_knight_move(self, j, k, c):
-        """ returns true if knight moves from (x0, y0) to (x1, y1),
-        where (|y1-y0|, |x1-x0|) ∈ {(1, 2), (2, 1)}
-        at most, there are 8 valid L-shaped moves, board edge permitting
-        >>> Chessboard.is_knight_move(51, 61, 8), Chessboard.is_knight_move(19, 4, 8), Chessboard.is_knight_move(0, 2, 8)
-        (True, True, False)
-        >>> Chessboard.is_knight_move(12, 1, 5), Chessboard.is_knight_move(12, 3, 5), Chessboard.is_knight_move(12, 5, 5), Chessboard.is_knight_move(12, 9, 5), Chessboard.is_knight_move(12, 15, 5), Chessboard.is_knight_move(12, 19, 5), Chessboard.is_knight_move(12, 21, 5), Chessboard.is_knight_move(12, 23, 5)
-        (True, True, True, True, True, True, True, True)
-        >>> Chessboard.is_knight_move(12, 2, 5), Chessboard.is_knight_move(12, 6, 5), Chessboard.is_knight_move(12, 7, 5), Chessboard.is_knight_move(12, 8, 5)
-        (False, False, False, False)
-        """
-        diff_col = abs((k % c) - (j % c)) - 1
-        diff_row = abs((k // c) - (j // c)) - 1
-        return (diff_col*diff_row == 0) and (diff_col + diff_row == 1)
