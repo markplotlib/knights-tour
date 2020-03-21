@@ -43,14 +43,18 @@ def find_8_moves(stack, r=8, c=8):
             moves_within_bounds.append(m)
     return moves_within_bounds
 
-def make_move(stack, i):
+def make_move(stack, i, hi_score):
     i += 1
     if len(stack) == ROW*COL:    # knight's tour found! :)
         for _ in range(9):
             print("*"*9 + "SOLUTION FOUND" + "*"*9)
             i = 0                # to print out solution
 
-    if i % 1000000 == 0:        # print out millionth recursive call
+    ################### TEMP
+    # if i % 1000000 == 0:        # print out millionth recursive call
+    if True:        # print out millionth recursive call
+    ################### TEMP
+
         itr_time = round(time() - start, 1)
         # table column: trying (attempt)
         attempt = "trying({})".format(str(len(stack)))
@@ -63,16 +67,36 @@ def make_move(stack, i):
         print("\t| ".join(table_row))
 
     elif len(stack) == 0:  # knight's tour unachievable for r,c < 5 :(
+
+    ####### TEMP
+        itr_time = round(time() - start, 1)
+        # table column: trying (attempt)
+        attempt = "trying({})".format(str(len(stack)))
+        # table column: move sequence and longest path (high score)
+        move_seq = list(map(to_chess, stack, repeat(ROW, len(stack)), repeat(COL, len(stack))))
+        hi_score = max(hi_score, len(stack))
+        str_hi_score = "longest path so far: " + str(hi_score)
+        # entire table
+        table_row = [str(itr_time), str(i), attempt, " ".join(move_seq), str_hi_score]
+        print("\t| ".join(table_row))
+    ####### TEMP
+
         return             # final spaces are impossible to reach
 
-    else:
-        good_moves = find_8_moves(stack, ROW, COL)
-        while len(good_moves) > 0:
-            # recursive case -- advance the knight
-            stack.append(good_moves.pop())
-            return make_move(stack, i)
-        # this branch is a dead-end --> backtrack
-        stack.pop()
+    good_moves = find_8_moves(stack, ROW, COL)
+    while len(good_moves) > 0:
+        # recursive case -- advance the knight
+        stack.append(good_moves.pop())
+
+        ####### TEMP
+        # a = stack
+        # print(stack)
+        # import pdb; pdb.set_trace()
+        ####### TEMP
+
+        return make_move(stack, i, hi_score)
+    # this branch is a dead-end --> backtrack
+    stack.pop()
 
 
 # global variables
@@ -89,4 +113,4 @@ if __name__ == '__main__':
     hi_score = 0
 
     # recursive call
-    make_move([START], 0)
+    make_move([START], 0, hi_score)
