@@ -26,11 +26,3 @@ class Chessboard:
         diff_col = abs((k % c) - (j % c)) - 1
         diff_row = abs((k // c) - (j // c)) - 1
         return (diff_col*diff_row == 0) and (diff_col + diff_row == 1)
-
-    def find_8_moves(self, m, r=8, c=8):
-        moves_within_bounds = []
-        moves_all8 = [ m + 2*c + 1, m - c - 2, m - c + 2, m + 2*c - 1, m - 2*c - 1, m + c + 2, m - 2*c + 1, m + c - 2 ]
-        for m in moves_all8:
-            if m >= 0 and m < r*c:
-                moves_within_bounds.append(m)
-        return moves_within_bounds

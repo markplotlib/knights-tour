@@ -8,35 +8,65 @@ from Chessboard import Chessboard
 DFS approach, random neighbor ordering
 recursive calls for promising branches
 """
+
+def find_8_moves(stack, r=8, c=8):
+    cur = stack[-1:][0]  # peek at stack -- get current space that knight occupies
+    moves_within_bounds = []
+    # moves_all8 = [ cur + 2*c + 1, cur - c - 2, cur - c + 2, cur + 2*c - 1, cur - 2*c - 1, cur + c + 2, cur - 2*c + 1, cur + c - 2 ]
+    for m in [cur+2*c+1,cur-c-2,cur-c+2,cur+2*c-1,cur-2*c-1,cur+c+2,cur-2*c+1,cur+c-2]:
+        if m >= 0 and m < r*c and m not in stack:
+            moves_within_bounds.append(m)
+    return moves_within_bounds
+
+def make_move(stack):
+    # base case 1
+    if len(stack) == ROW*COL:    # knight's tour found! :)
+        anotherMovePossible = False
+        return True
+    elif len(stack) == 0:        # knight's tour unachievable :(
+        anotherMovePossible = False
+        return False    # final spaces are impossible to reach
+    else:
+        available_moves = find_8_moves(stack, ROW, COL)
+        while len(available_moves) >= 0:
+            # recursive case -- advance the knight
+            stack.append(available_moves.pop())
+            return make_move(stack)
+        # this branch is a dead-end --> backtrack
+        stack.pop()
+
+
 # global variables
 ROW = COL = 3   # board dimensions
 START = 0       # space where the knight begins
 
 if __name__ == '__main__':
-
     board = Chessboard(ROW, COL)
     all_spaces = range(ROW*COL)
 
     table_header = ["seconds", "iteration", "trying...", "{}x{} board moves".format(ROW, COL)]
     print("\t| ".join(table_header))
 
-    # convert each from tuple to string
-    start = time()
+    # initialize values
+    spaces_visited = [START]
     i = 0
-    space = START
-    temp_stop_iterating = 3E6  ############ TEMP ########################
-    while i <= temp_stop_iterating:
+    anotherMovePossible = True
+    start = time()
+
+    while anotherMovePossible:
+        # anotherMovePossible becomes false when:
+        # a) final spaces are impossible to reach
+        # b) final spaces are reached (i.e., tour_done is True)
+
+        tour_done = make_move(spaces_visited)
+
         i += 1
-        if i % 1000000 == 0:
+        if tour_done or i % 1000000 == 0:
             itr_time = round(time() - start, 1)
-
-            available_moves = board.find_8_moves(space, ROW, COL)
-
 
             # table column: trying (attempt)
 
             # table column: outcome
-            tour_done = False   ############ TEMP ########################
             outcome = "success" if tour_done else "failure"
 
             move_seq = list(map(board.to_chess, all_spaces, repeat(ROW, ROW*COL), repeat(COL, ROW*COL)))
