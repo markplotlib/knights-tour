@@ -42,13 +42,24 @@ def are_all_knight_moves(x, c):
 
 
 def find_8_moves(stack, r=8, c=8):
-    cur = stack[-1:][0]  # CURRENT location of knight (stack.peek() operation)
-    moves_within_bounds = []
-    # 8 directions a knight can move, excluding board edges and retracing steps
-    moves_all8 = [ cur+2*c+1, cur-c-2, cur-c+2, cur+2*c-1,
-                    cur-2*c-1, cur+c+2, cur-2*c+1, cur+c-2 ]
-    for m in moves_all8:
-        is_m_in_board = m >= 0 and m < r*c
-        if is_knight_move(cur, m, c) and is_m_in_board and m not in stack:
-            moves_within_bounds.append(m)
-    return moves_within_bounds
+	"""
+	At most, there are 8 valid L-shaped moves.
+    From these 8 moves, some are removed because they're already in move stack
+	(i.e., they've been visited) or because the board edges are nearby --
+	is_knight_move disables wrap-around movement.
+	>>> find_8_moves([0])
+	[17, 10]
+	>>> find_8_moves([0, 17])
+	[34, 11, 32, 27, 2]
+	"""
+	cur = stack[-1:][0]  # CURRENT location of knight (stack.peek() operation)
+	moves_within_bounds = []
+	# 8 candidate moves have been ordered in a rotational sequence of 135° (CW)
+	# beginning at 5 o' clock (SSE)
+	moves_all8 = [ cur+2*c+1, cur-c-2, cur-c+2, cur+2*c-1,
+					cur-2*c-1, cur+c+2, cur-2*c+1, cur+c-2 ]
+	for m in moves_all8:
+		is_m_in_board = m >= 0 and m < r*c
+		if is_knight_move(cur, m, c) and is_m_in_board and m not in stack:
+			moves_within_bounds.append(m)
+	return moves_within_bounds
